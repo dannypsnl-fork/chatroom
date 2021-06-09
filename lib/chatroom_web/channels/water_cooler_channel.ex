@@ -1,5 +1,6 @@
 defmodule ChatroomWeb.WaterCoolerChannel do
   use ChatroomWeb, :channel
+  alias Chatroom.Chats
 
   @impl true
   def join("water_cooler:lobby", _payload, socket) do
@@ -10,6 +11,7 @@ defmodule ChatroomWeb.WaterCoolerChannel do
   # broadcast to everyone in the current topic (water_cooler:lobby).
   @impl true
   def handle_in("shout", payload, socket) do
+    Chats.create_message(payload)
     broadcast(socket, "shout", payload)
     {:noreply, socket}
   end
